@@ -1,6 +1,6 @@
-#
-# Vagrantfile for asterisk manager
-#
+# Vagrantfile for skelinit
+#  note that environment variables need to be passed to vagrant up/provision:
+#    set module=<user>-<modulename>   -- crypt password to deccrypt dumps
 
 Vagrant.configure('2') do |config|
   config.vm.box = 'bento/centos-7.2'
@@ -26,9 +26,10 @@ Vagrant.configure('2') do |config|
     s.path = 'vagrant_bootstrap_before_puppet.sh'
   end
 
+  $c = ENV['module']
   config.vm.provision 'shell' do |s|
     s.path = 'vagrant_bootstrap_skelinit.sh'
     # change mymodule to your desired module name
-    s.args = ['https://github.com/spiette/puppet-module-skeleton.git', 'mymodule']
+    s.args = ['https://github.com/spiette/puppet-module-skeleton.git', $c]
   end
 end
